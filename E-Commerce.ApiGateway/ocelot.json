@@ -11,7 +11,7 @@
       "DownstreamPathTemplate": "/api/products",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        //"AllowedScopes": ["api"]
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -50,7 +50,7 @@
       "DownstreamPathTemplate": "/api/orders",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        //"AllowedScopes": [ "api" ]
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -80,7 +80,7 @@
       "DownstreamPathTemplate": "/api/customers",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        //"AllowedScopes": [ "api" ]
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

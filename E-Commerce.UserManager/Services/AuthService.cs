@@ -12,7 +12,9 @@ namespace E_Commerce.UserManager.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public const string JWT_SECURIRY_KEY = "ZjI5ODU4Y2FhYjY4YTc2Y2MwZjdiMjk1MjNkODJlNzExZjFmZDFhYmQ4ZjMwN2JjZ2FiNmFiMw==";
+        //public const string JWT_SECURIRY_KEY = "yPkCqn4kSWLtaJwXvN2jGzpQRyTZ3gdXkt7FeBJP";
+        public const string JWT_SECURIRY_KEY = "@@AppAuth2022_@@AppAuth2023_@@AppAuth2024_@@AppAuth2025";
+        
         private const int JWT_TOKEN_VALIDITY_MINS = 30;
 
 
@@ -36,36 +38,36 @@ namespace E_Commerce.UserManager.Services
                 if (user == null)
                     return null;
 
-                var rolesClaims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, authenticationRequest.UserName), 
-            new Claim(JwtRegisteredClaimNames.Name, authenticationRequest.UserName),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64), 
-            new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64), 
-        };
+                //var rolesClaims = new List<Claim>();
+               
 
-                var roles = await _userManager.GetRolesAsync(user);
-                foreach (var role in roles)
-                {
-                    rolesClaims.Add(new Claim(ClaimTypes.Role, role));
-                }
+                //var roles = await _userManager.GetRolesAsync(user);
+                //foreach (var role in roles)
+                //{
+                //    rolesClaims.Add(new Claim(ClaimTypes.Role, role));
+                //}
+                //rolesClaims.Add(new Claim(JwtRegisteredClaimNames.Name, authenticationRequest.UserName));
 
+                //var claimsIdentity = new ClaimsIdentity(rolesClaims);
 
-                var claimsIdentity = new ClaimsIdentity(rolesClaims);
                 var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
-                var tokenKey = Convert.FromBase64String(JWT_SECURIRY_KEY);
+                var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURIRY_KEY);
+               
+                var claimsIdentity = new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Name,authenticationRequest.UserName),
+                    new Claim(ClaimTypes.Role,"User")
+                });
 
                 var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey),
-                    SecurityAlgorithms.HmacSha256);
+                    SecurityAlgorithms.HmacSha256Signature);
 
 
                 var securityTokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = claimsIdentity,
-                    Expires = tokenExpiryTimeStamp,
-                    Issuer = "http://localhost", 
-                    Audience = "http://localhost", 
+                    Expires = tokenExpiryTimeStamp, 
                     SigningCredentials = signingCredentials
                 };
 
@@ -137,29 +139,6 @@ namespace E_Commerce.UserManager.Services
                 JwtToken = token,
             };
 
-        }
-
-        public string GenerateJwtToken(string username)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT_SECURIRY_KEY));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-            new Claim("sub", username), // sub é o assunto (usuário)
-            new Claim("iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()), // hora de criação
-            new Claim("exp", DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds().ToString()) // hora de expiração
-        };
-
-            var token = new JwtSecurityToken(
-                issuer: "localhost",
-                audience: "localhost",
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

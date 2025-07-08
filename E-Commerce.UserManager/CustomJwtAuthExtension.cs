@@ -29,14 +29,13 @@ namespace E_Commerce.UserManager
             {
                 o.RequireHttpsMetadata = false;
                 o.SaveToken = true;
+                o.Audience = "api";
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = "localhost",  
-                    ValidAudience = "localhost", 
-                    IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String((AuthService.JWT_SECURIRY_KEY))) 
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes((AuthService.JWT_SECURIRY_KEY))) 
                 };
             });
 

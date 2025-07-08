@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\E-Commerce.AuthenticationManager\E-Commerce.UserManager.csproj" />
     <ProjectReference Include="..\E-Commerce.UserManager\E-Commerce.UserManager.csproj" />
   </ItemGroup>
 

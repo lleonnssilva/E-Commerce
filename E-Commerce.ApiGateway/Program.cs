@@ -4,15 +4,15 @@ using Ocelot.Middleware;
 using E_Commerce.UserManager;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("apiGateway.json", optional: false,
+builder.Configuration.AddJsonFile("ocelot.json", optional: false,
                                    reloadOnChange: true);
 
 // Add services to the container.
-builder.Services.AddOcelot(builder.Configuration)
-    .AddCacheManager(x =>
-    {
-        x.WithDictionaryHandle();
-    });
+builder.Services.AddOcelot(builder.Configuration);
+    //.AddCacheManager(x =>
+    //{
+    //    x.WithDictionaryHandle();
+    //});
 
 
 builder.Services.AddControllers();
