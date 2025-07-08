@@ -30,11 +30,11 @@ namespace E_Commerce.UserManager
                 o.RequireHttpsMetadata = false;
                 o.SaveToken = true;
                 o.Audience = "api";
-                o.TokenValidationParameters = new TokenValidationParameters
+                o.TokenValidationParameters = new  Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
-                    ValidateLifetime = false,
+                    ValidateIssuer = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes((AuthService.JWT_SECURIRY_KEY))) 
                 };
             });
