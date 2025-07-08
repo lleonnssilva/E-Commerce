@@ -1,11 +1,18 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5036"
+    "BaseUrl": "https://localhost:5036",
+    "RateLimitOptions": {
+      "QuotaExceededMessage": "Request not allowed",
+      "HttpStatusCode": 909
+    }
   },
   "Routes": [
     {
-      //DownstreamPathTemplate como microserviço vai receber a requisição
       "DownstreamPathTemplate": "/api/products",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -14,8 +21,6 @@
         }
       ],
 
-      //UpstreamPathTemplate onde a apiGateway responde
-      //UpstreamHttpMethod efine a url que seráutilizada na criação da requisição microserviço
       "UpstreamPathTemplate": "/gateway/product",
       "RateLimitOptions": {
         "ClientWhiteList": [],
@@ -43,6 +48,10 @@
 
     {
       "DownstreamPathTemplate": "/api/orders",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -69,6 +78,10 @@
 
     {
       "DownstreamPathTemplate": "/api/customers",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -93,10 +106,8 @@
     },
 
 
-
-
     {
-      "DownstreamPathTemplate": "/api/accounts",
+      "DownstreamPathTemplate": "/api/accounts/authenticate",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -104,7 +115,19 @@
           "Port": 7035
         }
       ],
-      "UpstreamPathTemplate": "/gateway/Authentication",
+      "UpstreamPathTemplate": "/gateway/authenticate",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/accounts/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/register",
       "UpstreamHttpMethod": [ "POST", "GET" ]
     }
   ]

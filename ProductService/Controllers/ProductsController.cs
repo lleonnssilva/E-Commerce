@@ -5,7 +5,7 @@ namespace E_Commerce.ProductService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         [HttpGet]

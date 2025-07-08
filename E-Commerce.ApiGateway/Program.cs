@@ -1,6 +1,7 @@
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Ocelot.Cache.CacheManager;
+using E_Commerce.UserManager;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("apiGateway.json", optional: false,
@@ -13,7 +14,9 @@ builder.Services.AddOcelot(builder.Configuration)
         x.WithDictionaryHandle();
     });
 
+
 builder.Services.AddControllers();
+builder.Services.AddJwtAutentication();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,5 +1,5 @@
-using E_Commerce.Authentication;
-using E_Commerce.Authentication.Models;
+using E_Commerce.UserManager.Models;
+using E_Commerce.UserManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.AuthenticationApi.Controllers
@@ -8,38 +8,26 @@ namespace E_Commerce.AuthenticationApi.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly JwtTokenHandler _jwtTokenHandler;
-
-
-
-        public AccountsController(JwtTokenHandler jwtTokenHandler)
+        private readonly AuthService _authService;
+        public AccountsController(AuthService authService)
         {
-            _jwtTokenHandler = jwtTokenHandler;
+            _authService = authService;
         }
 
-        [HttpGet]
-        public ActionResult<List<string>> GetAccounts()
+        [HttpPost("authenticate")]
+        public async Task<ActionResult<AuthenticationResponse>> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
         {
-            List<string> Accounts = new List<string>();
-            Accounts.Add("Account 1");
-            Accounts.Add("Account 2");
-            Accounts.Add("Account 3");
-            Accounts.Add("Account 4");
-            Accounts.Add("Account 5");
-            Accounts.Add("Account 6");
-            Accounts.Add("Account 7");
-            Accounts.Add("Account 8");
-            Accounts.Add("Account 9");
-            Accounts.Add("Account 10");
-            return Accounts.ToList();
-        }
-
-        [HttpPost]
-        public ActionResult<AuthenticationResponse> Authenticate([FromBody] AuthenticationRequest authenticationRequest)
-        {
-            var authenticationResponse = _jwtTokenHandler.GenerateJwtToken(authenticationRequest);
+            var authenticationResponse = await _authService.Autenticate(authenticationRequest);
             if (authenticationResponse == null) return Unauthorized();
             return authenticationResponse;
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<UserCreateResponse>> Register(UserCreateRequest request)
+        {
+            var userCreateResponse = await _authService.RegisterAsync(request);
+            if (userCreateResponse == null) return BadRequest();
+            return userCreateResponse;
         }
     }
 }

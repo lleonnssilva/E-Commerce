@@ -1,15 +1,18 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class CustomersController : ControllerBase
     {
         [HttpGet]
         public ActionResult<List<string>> GetCustomers()
         {
+
+            var user = User.Identity;
             List<string> Customer = new List<string>();
             Customer.Add("Customer 1");
             Customer.Add("Customer 2");

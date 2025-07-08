@@ -1,4 +1,4 @@
-﻿namespace E_Commerce.Authentication.Models
+﻿namespace E_Commerce.UserManager.Models
 {
     public class UserAccount
     {

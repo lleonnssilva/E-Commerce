@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\E-Commerce.AuthenticationManager\E-Commerce.AuthenticationManager.csproj" />
     <ProjectReference Include="..\E-Commerce.Authentication\E-Commerce.Authentication.csproj" />
+    <ProjectReference Include="..\E-Commerce.UserManager\E-Commerce.UserManager.csproj" />
   </ItemGroup>
 
 </Project>

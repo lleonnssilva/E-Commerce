@@ -1,11 +1,10 @@
+using E_Commerce.UserManager;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddJwtAutentication();
+
 
 builder.Services.AddCors(opt =>
 {
@@ -16,15 +15,10 @@ builder.Services.AddCors(opt =>
 });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
 app.MapControllers();
+app.MapGet("/", () => Results.Content("<h3>API Order!</h3>", "text/html"));
 app.Run();
