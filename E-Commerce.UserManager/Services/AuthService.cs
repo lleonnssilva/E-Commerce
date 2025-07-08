@@ -38,26 +38,22 @@ namespace E_Commerce.UserManager.Services
                 if (user == null)
                     return null;
 
-                //var rolesClaims = new List<Claim>();
-               
+                var rolesClaims = new List<Claim>();
 
-                //var roles = await _userManager.GetRolesAsync(user);
-                //foreach (var role in roles)
-                //{
-                //    rolesClaims.Add(new Claim(ClaimTypes.Role, role));
-                //}
-                //rolesClaims.Add(new Claim(JwtRegisteredClaimNames.Name, authenticationRequest.UserName));
 
-                //var claimsIdentity = new ClaimsIdentity(rolesClaims);
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach (var role in roles)
+                {
+                    rolesClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                rolesClaims.Add(new Claim(JwtRegisteredClaimNames.Name, authenticationRequest.UserName));
+
+                var claimsIdentity = new ClaimsIdentity(rolesClaims);
 
                 var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(JWT_TOKEN_VALIDITY_MINS);
                 var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURIRY_KEY);
                
-                var claimsIdentity = new ClaimsIdentity(new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Name,authenticationRequest.UserName),
-                    new Claim(ClaimTypes.Role,"User")
-                });
+              
 
                 var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey),
@@ -66,6 +62,7 @@ namespace E_Commerce.UserManager.Services
 
                 var securityTokenDescriptor = new SecurityTokenDescriptor
                 {
+                    //Audience = "api",
                     Subject = claimsIdentity,
                     Expires = tokenExpiryTimeStamp, 
                     SigningCredentials = signingCredentials

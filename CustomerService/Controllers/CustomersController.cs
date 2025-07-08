@@ -5,7 +5,7 @@ namespace CustomerService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class CustomersController : ControllerBase
     {
         [HttpGet]

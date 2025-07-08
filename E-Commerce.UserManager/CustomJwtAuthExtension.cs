@@ -29,7 +29,7 @@ namespace E_Commerce.UserManager
             {
                 o.RequireHttpsMetadata = false;
                 o.SaveToken = true;
-                o.Audience = "api";
+                //o.Audience = "api";
                 o.TokenValidationParameters = new  Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
